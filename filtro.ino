@@ -1,9 +1,9 @@
 // Configurações do filtro passa-baixa
-float cutoff_freq = 50;  // Frequência de corte desejada em Hz
-float sampling_freq = 512;  // Frequência de amostragem em Hz
+float cutoff_freq = 20;  // Frequência de corte desejada em Hz
+float sampling_freq = 1024;  // Frequência de amostragem em Hz
 float alpha;
-float outputStages[3];
-float prevOutputs[3];
+float outputStages[2];
+float prevOutputs[2];
 
 void setup() {
   Serial.begin(115200);
@@ -15,24 +15,24 @@ void setup() {
 void loop() {
   if (Serial.available()) {
     float inputSignal = Serial.parseFloat();
-    Serial.read(); // Limpa o buffer
+    Serial.read(); 
 
-    // Aplica o filtro IIR em três estágios
-    for (int i = 0; i < 3; i++) {
+  
+    for (int i = 0; i < 2; i++) {
       if (i == 0) {
-        // Primeira etapa: o input é o sinal original
+        
         outputStages[i] = alpha * inputSignal + (1 - alpha) * prevOutputs[i];
       } else {
-        // As etapas subsequentes usam a saída da etapa anterior
+        
         outputStages[i] = alpha * outputStages[i - 1] + (1 - alpha) * prevOutputs[i];
       }
     }
 
     // Envia a saída do terceiro estágio
-    Serial.println(outputStages[2]);
+    Serial.println(outputStages[1]);
 
     // Atualiza as saídas anteriores para a próxima iteração
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
       prevOutputs[i] = outputStages[i];
     }
   }
