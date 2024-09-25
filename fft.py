@@ -45,10 +45,10 @@ def calculate_fft(signal, sample_rate):
 # Parâmetros do sinal
 frequency = 5   
 amplitude = 0.75  
-noise_amplitude = 0.1 
-sample_rate = 2**9
+noise_amplitude = 1 
+sample_rate = 1024
 duration = 1.0/sample_rate
-sample_rate_n = 2**12
+sample_rate_n = 8192
 
 print("Iniciando a geração do sinal com ruído...")
 t, noisy_signal = generate_noisy_signal(frequency, amplitude, noise_amplitude, duration, sample_rate, sample_rate_n)
